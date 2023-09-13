@@ -8,14 +8,12 @@ using UdemyObservability.ConsoleApp;
 Console.WriteLine("Hello, World!");
 
 
-
-
 var traceProvider = Sdk.CreateTracerProviderBuilder()
     .AddSource(OpenTelemetryConstants.ActivitySourceName)
     .ConfigureResource(configure =>
     {
         configure
-        .AddService(OpenTelemetryConstants.ServiceName, OpenTelemetryConstants.ServiceVersion)
+        .AddService(OpenTelemetryConstants.ServiceName, serviceVersion: OpenTelemetryConstants.ServiceVersion)
         .AddAttributes(new List<KeyValuePair<string, object>>()
                 {
             
@@ -23,6 +21,13 @@ var traceProvider = Sdk.CreateTracerProviderBuilder()
                     new KeyValuePair<string, object>("host.environment", "dev"),
 
                 });
-    }).Build();
+    }).AddConsoleExporter().Build();
+
+var serviceHelper = new ServiceHelper();
+
+await serviceHelper.Work1();
+
+
+
 
 
