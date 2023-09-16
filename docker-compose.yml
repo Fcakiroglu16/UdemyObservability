@@ -2,3 +2,5 @@ version: '3.4'
 services:
   jaeger:
    image: jaegertracing/all-in-one:1.49
+  zipkin:
+   image: openzipkin/zipkin:2.24

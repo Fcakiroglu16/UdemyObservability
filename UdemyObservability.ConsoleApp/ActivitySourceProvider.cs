@@ -6,6 +6,6 @@ namespace UdemyObservability.ConsoleApp
     {
         internal static ActivitySource Source = new ActivitySource(OpenTelemetryConstants.ActivitySourceName);
 
-        internal static ActivitySource SourceFile = new ActivitySource(OpenTelemetryConstants.ActivitySourceName);
+        internal static ActivitySource SourceFile = new ActivitySource(OpenTelemetryConstants.ActivitySourceFileName);
     }
 }
