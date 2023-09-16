@@ -14,7 +14,7 @@ namespace UdemyObservability.ConsoleApp
         {
 
 
-            var activity = ActivitySourceProvider.Source.StartActivity();
+          using  var activity = ActivitySourceProvider.Source.StartActivity();
 
             await File.WriteAllTextAsync("myFile.txt", text);
 

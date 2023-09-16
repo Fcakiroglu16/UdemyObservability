@@ -8,7 +8,7 @@ using UdemyObservability.ConsoleApp;
 Console.WriteLine("Hello, World!");
 
 
-var traceProvider = Sdk.CreateTracerProviderBuilder()
+using var traceProvider = Sdk.CreateTracerProviderBuilder()
     .AddSource(OpenTelemetryConstants.ActivitySourceName)
     .ConfigureResource(configure =>
     {
@@ -21,7 +21,7 @@ var traceProvider = Sdk.CreateTracerProviderBuilder()
                     new KeyValuePair<string, object>("host.environment", "dev"),
 
                 });
-    }).AddConsoleExporter().Build();
+    }).AddConsoleExporter().AddOtlpExporter().Build();
 
 var serviceHelper = new ServiceHelper();
 

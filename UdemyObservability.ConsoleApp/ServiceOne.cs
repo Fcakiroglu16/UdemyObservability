@@ -24,7 +24,7 @@ namespace UdemyObservability.ConsoleApp
 
                 activity?.AddEvent(new("gooogle'a istek başladı", tags: eventTags));
                 activity?.AddTag("request.schema", "https");
-                activity?.AddTag("request.metho", "get");
+                activity?.AddTag("request.method", "get");
                 var result = await httpClient.GetAsync("https://www.google.com");
 
 
@@ -37,7 +37,11 @@ namespace UdemyObservability.ConsoleApp
                 activity?.AddEvent(new("gooogle'a istek tamamlandı", tags: eventTags));
 
 
-             
+                var serviceTwo = new ServiceTwo();
+
+                var fileLength = await serviceTwo.WriteToFile("Merhaba Dünya");
+
+
 
                 return responseContent.Length;
             }

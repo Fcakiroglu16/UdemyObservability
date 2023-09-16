@@ -1,0 +1,8 @@
+version: '3.4'
+services:
+  jaeger:
+   container_name: "jaeger-container"
+   ports:
+    - 4317:4317   #grpc
+    - 4318:4318   #http
+    - 16686:16686 #UI
