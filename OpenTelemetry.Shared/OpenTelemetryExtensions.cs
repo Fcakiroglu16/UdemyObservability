@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using System.Diagnostics;
 
 namespace OpenTelemetry.Shared
 {
@@ -58,6 +59,40 @@ namespace OpenTelemetry.Shared
 
                     };
                 });
+
+                options.AddHttpClientInstrumentation(httpOptions =>
+                {
+
+                    httpOptions.EnrichWithHttpRequestMessage = async (activity, request) =>
+                    {
+                        var requestContent = "empty";
+
+                        if (request.Content != null)
+                        {
+                            requestContent = await request.Content.ReadAsStringAsync();
+                        }
+
+
+                        activity.SetTag("http.request.body", requestContent);
+                    };
+
+                    httpOptions.EnrichWithHttpResponseMessage = async (activity, response) =>
+                    {
+
+                        if (response.Content != null)
+                        {
+                            activity.SetTag("http.response.body", await response.Content.ReadAsStringAsync());
+                        }
+
+                    };
+
+                });
+
+                options.AddRedisInstrumentation(redisOptions =>
+                {
+                    redisOptions.SetVerboseDatabaseStatements = true;
+                });
+
                 options.AddConsoleExporter();
                 options.AddOtlpExporter(); // Jaeger
 
