@@ -1,6 +1,7 @@
 ﻿using Common.Shared.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Stock.API.Services;
 
 namespace Stock.API.Controllers
 {
@@ -17,10 +18,10 @@ namespace Stock.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult CheckAndPaymentStart(StockCheckAndPaymentProcessRequestDto request)
+        public async Task<IActionResult> CheckAndPaymentStart(StockCheckAndPaymentProcessRequestDto request)
         {
 
-            var result =  _stockService.CheckAndPaymentProcess(request);
+            var result = await  _stockService.CheckAndPaymentProcess(request);
         
             return new ObjectResult(result) {  StatusCode=result.StatusCode };
 
