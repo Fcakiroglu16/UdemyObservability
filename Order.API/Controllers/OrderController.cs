@@ -1,20 +1,24 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Common.Shared.Events;
+using MassTransit;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Order.API.OrderServices;
+using System.Diagnostics;
 
 namespace Order.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class OrderController : ControllerBase
     {
 
         private readonly OrderService _orderService;
+        private readonly IPublishEndpoint _publishEndpoint;
 
-        
-        public OrderController(OrderService orderService)
+        public OrderController(OrderService orderService, IPublishEndpoint publishEndpoint)
         {
             _orderService = orderService;
+            _publishEndpoint = publishEndpoint;
         }
         [HttpPost]
         public async Task<IActionResult> Create(OrderCreateRequestDto request)
@@ -30,6 +34,7 @@ namespace Order.API.Controllers
             //var content = await response.Content.ReadAsStringAsync(); 
             #endregion
 
+        
 
             return new ObjectResult(result) { StatusCode = result.StatusCode };
             #region Exception örneği için hazırlandı.
@@ -40,6 +45,19 @@ namespace Order.API.Controllers
             #endregion
 
 
+
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult>  SendOrderCreatedEvent()
+        {
+
+            // Kuyruğua mesaj gönder
+
+            await _publishEndpoint.Publish(new OrderCreatedEvent() { OrderCode = Guid.NewGuid().ToString() });
+
+            return Ok();
 
         }
     }

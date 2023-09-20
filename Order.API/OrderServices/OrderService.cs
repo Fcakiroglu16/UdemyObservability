@@ -1,5 +1,7 @@
 ﻿
 using Common.Shared.DTOs;
+using Common.Shared.Events;
+using MassTransit;
 using OpenTelemetry.Shared;
 using Order.API.Models;
 using Order.API.RedisServices;
@@ -14,12 +16,14 @@ namespace Order.API.OrderServices
         private readonly AppDbContext _context;
         private readonly StockService _stockService;
         private readonly RedisService _redisService;
+        private readonly IPublishEndpoint _publishEndpoint;
 
-        public OrderService(AppDbContext context, StockService stockService, RedisService redisService)
+        public OrderService(AppDbContext context, StockService stockService, RedisService redisService, IPublishEndpoint publishEndpoint)
         {
             _context = context;
             _stockService = stockService;
             _redisService = redisService;
+            _publishEndpoint = publishEndpoint;
         }
 
         public async Task<ResponseDto<OrderCreateResponseDto>> CreateAsync(OrderCreateRequestDto request)
@@ -42,7 +46,7 @@ namespace Order.API.OrderServices
             using var activity = ActivitySourceProvider.Source.StartActivity();
             activity?.AddEvent(new("Sipariş süreci başladı."));
 
-
+            activity.SetBaggage("userId", request.UserId.ToString());
             var newOrder = new Order()
             {
                 Created = DateTime.Now,
@@ -62,6 +66,7 @@ namespace Order.API.OrderServices
             _context.Orders.Add(newOrder);
             await _context.SaveChangesAsync();
 
+        
 
             StockCheckAndPaymentProcessRequestDto stockRequest = new();
 

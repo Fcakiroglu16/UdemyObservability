@@ -1,6 +1,7 @@
 ﻿using Common.Shared.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Primitives;
 
 namespace Payment.API.Controllers
 {
@@ -13,6 +14,13 @@ namespace Payment.API.Controllers
         [HttpPost]
         public IActionResult Create(PaymentCreateRequestDto request)
         {
+            
+            if (HttpContext.Request.Headers.TryGetValue("traceparent", out StringValues values))
+            {
+                Console.WriteLine($"traceParent:{values.First()}");
+            };
+
+
             const decimal balance = 1000;
 
             if(request.TotalPrice>balance)

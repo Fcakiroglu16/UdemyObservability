@@ -1,4 +1,5 @@
 ﻿using Common.Shared.DTOs;
+using System.Diagnostics;
 using System.Net;
 
 namespace Stock.API.Services
@@ -27,6 +28,13 @@ namespace Stock.API.Services
 
         public async Task<ResponseDto<StockCheckAndPaymentProcessResponseDto>> CheckAndPaymentProcess(StockCheckAndPaymentProcessRequestDto request)
         {
+
+
+
+
+            var userId = Activity.Current?.GetBaggageItem("userId");
+
+           
 
             var productStockList = GetProductStockList();
 

@@ -1,7 +1,9 @@
 ﻿using Common.Shared.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OpenTelemetry.Shared;
 using Stock.API.Services;
+using System.Diagnostics;
 
 namespace Stock.API.Controllers
 {
@@ -20,6 +22,10 @@ namespace Stock.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CheckAndPaymentStart(StockCheckAndPaymentProcessRequestDto request)
         {
+            //örnek için header datası alındı ve debug modda incelendi.
+            var header = HttpContext.Request.Headers;
+
+
 
             var result = await  _stockService.CheckAndPaymentProcess(request);
         
