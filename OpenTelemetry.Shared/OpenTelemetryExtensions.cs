@@ -40,14 +40,14 @@ namespace OpenTelemetry.Shared
 
                     };
                     
+                    // Serilog üzerinden elasticsearch db'ye hatalar gönderildiği için kapatıldı.
+                    //aspnetcoreOptions.RecordException = true;
 
-                    aspnetcoreOptions.RecordException = true;
-
-                    aspnetcoreOptions.EnrichWithException = (activity, exception) =>
-                    {
+                    //aspnetcoreOptions.EnrichWithException = (activity, exception) =>
+                    //{
                         
-                        // Bilerek boş bırakıldı. Örnek göstermek için
-                    };
+                    //    // Bilerek boş bırakıldı. Örnek göstermek için
+                    //};
 
                 });
 
@@ -64,6 +64,20 @@ namespace OpenTelemetry.Shared
 
                 options.AddHttpClientInstrumentation(httpOptions =>
                 {
+
+
+
+
+                    httpOptions.FilterHttpRequestMessage = (request) =>
+                    {
+
+                     
+                            return !request.RequestUri.AbsoluteUri.Contains("9200", StringComparison.InvariantCulture);
+                        
+                     
+
+                    };
+
 
                     httpOptions.EnrichWithHttpRequestMessage = async (activity, request) =>
                     {
