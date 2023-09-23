@@ -56,7 +56,7 @@ namespace Stock.API.Services
 
             }
 
-            throw new DivideByZeroException("Bölünme hatası meydana geldi.");
+          
             _logger.LogInformation("Stock ayrıldı.orderCode:{@orderCode}", request.OrderCode);
             var (isSuccess, failMessage) = await _paymentService.CreatePaymentProcess(new PaymentCreateRequestDto()
             {

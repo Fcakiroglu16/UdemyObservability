@@ -1,11 +1,11 @@
 version: '3.4'
 services:
-  jaeger:
-   container_name: "jaeger-container"
-   ports:
-    - 4317:4317   #grpc
-    - 4318:4318   #http
-    - 16686:16686 #UI
+  # jaeger:
+  #  container_name: "jaeger-container"
+  #  ports:
+  #   - 4317:4317   #grpc
+  #   - 4318:4318   #http
+  #   - 16686:16686 #UI
   redis:
    ports:
     - 6379:6379 
@@ -13,22 +13,34 @@ services:
    ports:
     - 5672:5672 
     - 15672:15672 
-  elasticsearch:
+  # elasticsearch:
+  #  ports:
+  #   - 9200:9200
+  #  environment:
+  #   - xpack.security.enabled=false
+  #   - "discovery.type=single-node"
+  #   - ELASTIC_USERNAME=elastic
+  #   - ELASTIC_PASSWORD=DkIedPPSCb
+  #  volumes:
+  #   - elastic_db:/usr/share/elasticsearch/data
+  # kibana:
+  #  ports:
+  #   - 5601:5601
+  #  environment:
+  #   - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+  #  depends_on:
+  #   - elasticsearch
+  otel-collector:
    ports:
-    - 9200:9200
-   environment:
-    - xpack.security.enabled=false
-    - "discovery.type=single-node"
-    - ELASTIC_USERNAME=elastic
-    - ELASTIC_PASSWORD=DkIedPPSCb
+        - 1888:1888 # pprof extension
+        - 8888:8888 # Prometheus metrics exposed by the collector
+        - 8889:8889 # Prometheus exporter metrics
+        - 13133:13133 # health_check extension
+        - 4317:4317 # OTLP gRPC receiver
+        - 4318:4318 # OTLP http receiver
+        - 55679:55679 # zpages extension
    volumes:
-    - elastic_db:/usr/share/elasticsearch/data
-  kibana:
-   ports:
-    - 5601:5601
-   environment:
-    - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
-   depends_on:
-    - elasticsearch
+    - ./otel-collector-config.yaml:/etc/otelcol-contrib/config.yaml
+   
 volumes:
   elastic_db:

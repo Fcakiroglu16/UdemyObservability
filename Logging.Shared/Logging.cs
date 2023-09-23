@@ -1,17 +1,34 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using OpenTelemetry.Logs;
+using OpenTelemetry.Resources;
 using Serilog;
 using Serilog.Exceptions;
 using Serilog.Formatting.Elasticsearch;
+using OpenTelemetry.Logs;
 
 namespace Logging.Shared
 {
     public static class Logging
     {
        
+        public static void AddOpenTelemetryLog(this WebApplicationBuilder builder)
+        {
+
+            builder.Logging.AddOpenTelemetry(cfg =>
+            {
+                var serviceName = builder.Configuration.GetSection("OpenTelemetry")["ServiceName"];
+                var serviceVersion = builder.Configuration.GetSection("OpenTelemetry")["ServiceVersion"];
+
+                cfg.SetResourceBuilder(ResourceBuilder.CreateDefault().AddService(serviceName!, serviceVersion: serviceVersion));
+                cfg.AddOtlpExporter();
+
+            });
+        }
+
+
+
+
         public static Action<HostBuilderContext, LoggerConfiguration> ConfigureLogging => (builderContext, loggerConfiguration) =>
         {
             var environment = builderContext.HostingEnvironment;
