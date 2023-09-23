@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stock.API", "Stock.API\Stoc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payment.API", "Payment.API\Payment.API.csproj", "{D6B55958-A54C-4E13-BFD8-65D14830D258}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logging.Shared", "..\Logging.Shared\Logging.Shared.csproj", "{996491EA-A520-47F7-890C-68C806F3024D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logging.Shared", "Logging.Shared\Logging.Shared.csproj", "{3495F674-B996-429A-AF28-1CC6818FC80A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,10 +53,10 @@ Global
 		{D6B55958-A54C-4E13-BFD8-65D14830D258}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6B55958-A54C-4E13-BFD8-65D14830D258}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6B55958-A54C-4E13-BFD8-65D14830D258}.Release|Any CPU.Build.0 = Release|Any CPU
-		{996491EA-A520-47F7-890C-68C806F3024D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{996491EA-A520-47F7-890C-68C806F3024D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{996491EA-A520-47F7-890C-68C806F3024D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{996491EA-A520-47F7-890C-68C806F3024D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3495F674-B996-429A-AF28-1CC6818FC80A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3495F674-B996-429A-AF28-1CC6818FC80A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3495F674-B996-429A-AF28-1CC6818FC80A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3495F674-B996-429A-AF28-1CC6818FC80A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
