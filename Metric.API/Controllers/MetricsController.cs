@@ -10,7 +10,7 @@ namespace Metric.API.Controllers
     {
 
         [HttpGet]
-        public IActionResult   CounterMetric()
+        public IActionResult CounterMetric()
         {
 
             OpenTelemetryMetric.OrderCreatedEventCounter.Add(1,
@@ -20,5 +20,60 @@ namespace Metric.API.Controllers
 
             return Ok();
         }
+
+        [HttpGet]
+        public IActionResult CounterObservableMetric()
+        {
+            Counter.OrderCancelledCounter += new Random().Next(1, 100);
+
+
+            return Ok();
+        }
+
+
+        [HttpGet]
+        public IActionResult UpDownCounterMetric()
+        {
+
+            OpenTelemetryMetric.CurrentStockCounter.Add(new Random().Next(-300, 300));
+
+            return Ok();
+
+        }
+
+        [HttpGet]
+        public IActionResult UpDownCounterObservableMetric()
+        {
+
+            Counter.CurrentStockCount += new Random().Next(-300, 300);
+
+            return Ok();
+
+        }
+
+
+
+        [HttpGet]
+        public IActionResult GaugeObservableMetric()
+        {
+
+            Counter.KitchenTemp = new Random().Next(-30, 60);
+
+            return Ok();
+
+        }
+
+
+        [HttpGet]
+        public IActionResult HistogramMetric()
+        {
+
+
+            OpenTelemetryMetric.XMethodDuration.Record(new Random().Next(500, 50000));
+
+            return Ok();
+
+        }
+
     }
 }
