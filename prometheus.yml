@@ -1,0 +1,11 @@
+scrape_configs:
+  - job_name: prometheus
+    static_configs:
+     - targets: ['localhost:9090']
+  - job_name: metric.api
+    scrape_interval: 2s
+    static_configs:
+     - targets: ['metric.api:8080']
+  
+
+       
