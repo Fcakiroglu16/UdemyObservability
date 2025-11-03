@@ -1,8 +1,8 @@
+#region
+
 using Common.Shared;
-using Logging.Shared;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Shared;
@@ -10,8 +10,9 @@ using Order.API.Models;
 using Order.API.OrderServices;
 using Order.API.RedisServices;
 using Order.API.StockServices;
-using Serilog;
 using StackExchange.Redis;
+
+#endregion
 
 var builder = WebApplication.CreateBuilder(args);
 //builder.Host.UseSerilog(Logging.Shared.Logging.ConfigureLogging);
@@ -45,7 +46,7 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
 builder.Services.AddSingleton(_ => { return new RedisService(builder.Configuration); });
 builder.Services.AddHttpClient<StockService>(options =>
 {
-    options.BaseAddress = new Uri((builder.Configuration.GetSection("ApiServices")["StockApi"])!);
+    options.BaseAddress = new Uri(builder.Configuration.GetSection("ApiServices")["StockApi"]!);
 });
 
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -59,8 +60,8 @@ builder.Services.AddMassTransit(x =>
     {
         cfg.Host("localhost", "/", host =>
         {
-            host.Username("guest");
-            host.Password("guest");
+            host.Username("rabbitmq");
+            host.Password("XXXX2024*?");
         });
     });
 });

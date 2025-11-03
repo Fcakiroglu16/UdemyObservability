@@ -1,12 +1,14 @@
+#region
+
 using Common.Shared;
-using Logging.Shared;
 using MassTransit;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Shared;
-using Serilog;
 using Stock.API.Consumers;
 using Stock.API.Services;
+
+#endregion
 
 var builder = WebApplication.CreateBuilder(args);
 //builder.Host.UseSerilog(Logging.Shared.Logging.ConfigureLogging);
@@ -31,7 +33,7 @@ builder.Services.AddOpenTelemetryExt(builder.Configuration);
 
 builder.Services.AddHttpClient<PaymentService>(options =>
 {
-    options.BaseAddress = new Uri((builder.Configuration.GetSection("ApiServices")["PaymentApi"])!);
+    options.BaseAddress = new Uri(builder.Configuration.GetSection("ApiServices")["PaymentApi"]!);
 });
 
 
@@ -44,8 +46,8 @@ builder.Services.AddMassTransit(x =>
     {
         cfg.Host("localhost", "/", host =>
         {
-            host.Username("guest");
-            host.Password("guest");
+            host.Username("rabbitmq");
+            host.Password("XXXX2024*?");
         });
 
 
